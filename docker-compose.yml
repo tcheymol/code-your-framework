@@ -14,7 +14,7 @@ services:
       - .env
     # Comment out these volumes in production
     environment:
-        XDEBUG_CONFIG: remote_host=192.168.0.192
+        XDEBUG_CONFIG: remote_host=10.254.254.254
     volumes:
       - .:/srv/api:rw,cached
       # If you develop on Linux, uncomment the following line to use a bind-mounted host directory instead

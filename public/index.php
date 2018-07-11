@@ -1,3 +1,6 @@
 <?php
 
-echo("Project initiated");
+$name = $_GET['name'];
+
+printf('Hello %s', $name);
+
