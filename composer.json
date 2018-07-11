@@ -4,5 +4,7 @@
   "type": "project",
   "license": "WTFPL",
   "minimum-stability": "stable",
-  "require": {}
+  "require": {
+    "symfony/http-foundation": "^4.1"
+  }
 }
