@@ -1,0 +1,8 @@
+{
+  "name": "stan/code-your-framework",
+  "description": "Code your own php framework thanks to https://symfony.com/doc/current/create_framework/index.html",
+  "type": "project",
+  "license": "WTFPL",
+  "minimum-stability": "stable",
+  "require": {}
+}
