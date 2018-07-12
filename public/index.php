@@ -6,9 +6,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $request = Request::createFromGlobals();
+$response = new Response();
 
-$name = $request->get('name', 'World');
+$map = [
+    '/hello' => __DIR__.'/hello.php',
+    '/bye' => __DIR__.'/bye.php'
+];
 
-$response = new Response(sprintf('Hello %s', htmlspecialchars($name, ENT_QUOTES, 'UTF-8')));
+$path = $request->getPathInfo();
+
+if (isset($map[$path])) {
+    require $map[$path];
+} else {
+    $response->setStatusCode(404);
+    $response->setContent('Not Found');
+}
 
 $response->send();
