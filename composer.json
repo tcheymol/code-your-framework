@@ -5,6 +5,7 @@
   "license": "WTFPL",
   "minimum-stability": "stable",
   "require": {
-    "symfony/http-foundation": "^4.1"
+    "symfony/http-foundation": "^4.1",
+    "symfony/routing": "^4.1"
   }
 }

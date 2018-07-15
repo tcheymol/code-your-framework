@@ -4,24 +4,33 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
 
 $request = Request::createFromGlobals();
 $response = new Response();
 
-$map = [
-    '/hello' => __DIR__.'/hello.php',
-    '/bye' => __DIR__.'/bye.php'
-];
+include('../src/routes.php');
+
+$context = new RequestContext();
+$context->fromRequest($request);
+
+$matcher = new UrlMatcher($routes, $context);
 
 $path = $request->getPathInfo();
 
-if (isset($map[$path])) {
+try {
     ob_start();
-    require $map[$path];
+    extract($matcher->match($path));
+    include(sprintf('../src/pages/%s.php', $_route));
     $response->setContent(ob_get_clean());
-} else {
+} catch (ResourceNotFoundException $e) {
     $response->setStatusCode(404);
-    $response->setContent('Not Found');
+    $response->setContent('Not found');
+} catch (Exception $e) {
+    $response->setStatusCode(500);
+    $response->setContent('Something went wrong :/');
 }
 
 $response->send();
