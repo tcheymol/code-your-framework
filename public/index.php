@@ -30,7 +30,8 @@ $path = $request->getPathInfo();
 
 try {
     $request->attributes->add($matcher->match($path));
-    $response = render_template($request);
+    $controller = $request->attributes->get('_controller');
+    $response = call_user_func($controller, $request);
 } catch (ResourceNotFoundException $e) {
     $response->setStatusCode(404);
     $response->setContent('Not found');
