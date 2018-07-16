@@ -15,11 +15,5 @@ $routes->add('hello', new Route(
 $routes->add('bye', new Route('/bye', ['_controller' => 'render_template']));
 $routes->add('world-cup', new Route(
     '/has-won-the-world-cup/{country}',
-    ['_controller' => function(Request $request) {
-        $country = $request->attributes->get('country');
-        if (strtolower($country) === 'france') {
-            return render_template($request);
-        }
-        return new Response('No.');
-    }]
+    ['_controller' => 'WorldCupController::hasWonTheWorldCup']
 ));

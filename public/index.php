@@ -4,6 +4,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -25,13 +27,16 @@ $context = new RequestContext();
 $context->fromRequest($request);
 
 $matcher = new UrlMatcher($routes, $context);
+$controllerResolver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
 
 $path = $request->getPathInfo();
 
 try {
     $request->attributes->add($matcher->match($path));
-    $controller = $request->attributes->get('_controller');
-    $response = call_user_func($controller, $request);
+    $controller = $controllerResolver->getController($request);
+    $arguments = $argumentResolver->getArguments($request, $controller);
+    $response = call_user_func_array($controller, $arguments);
 } catch (ResourceNotFoundException $e) {
     $response->setStatusCode(404);
     $response->setContent('Not found');
