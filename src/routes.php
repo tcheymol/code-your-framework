@@ -4,8 +4,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 $routes = new RouteCollection();
 $routes->add('hello', new Route(
@@ -15,5 +13,5 @@ $routes->add('hello', new Route(
 $routes->add('bye', new Route('/bye', ['_controller' => 'render_template']));
 $routes->add('world-cup', new Route(
     '/has-won-the-world-cup/{country}',
-    ['_controller' => 'WorldCupController::hasWonTheWorldCup']
+    ['_controller' => 'WorldCup\Controller\WorldCupController::hasWonTheWorldCup']
 ));
