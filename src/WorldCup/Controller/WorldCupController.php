@@ -12,6 +12,10 @@ class WorldCupController
         if (strtolower($country) === 'france') {
             return render_template($request);
         }
-        return new Response('No.');
+        $response = new Response('No.'.rand());
+
+        $response->setTtl(10);
+
+        return $response;
     }
 }
